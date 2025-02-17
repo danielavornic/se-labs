@@ -6,8 +6,6 @@ void setup()
 {
     serialInit();
     ledInit();
-
-    printf("enter command (led on/led off):\n");
 }
 
 void loop()

@@ -2,20 +2,17 @@
 #include "led_control.h"
 
 // stream for stdio
-static FILE uartout = { 0 };
-static FILE uartin = { 0 };
+static FILE serialOutput = { 0 };
+static FILE serialInput = { 0 };
 
-// uart - universal asynchronous receiver/transmitter
-static int uart_putchar(char c, FILE* stream)
+static int serialWriteByte(char c, FILE* stream)
 {
     Serial.write(c);
     return 0;
 }
 
-// input function
-static int uart_getchar(FILE* stream)
+static int serialReadByte(FILE* stream)
 {
-    // wait until data is available
     while (!Serial.available())
         ;
     return Serial.read();
@@ -28,55 +25,49 @@ void serialInit()
     // wait for serial port to connect
     // for usb connection
     while (!Serial) {
-        ; // wait for serial port to connect
+        ;
     }
 
-    // Set up stdout and stdin
-    fdev_setup_stream(&uartout, uart_putchar, NULL, _FDEV_SETUP_WRITE);
-    fdev_setup_stream(&uartin, NULL, uart_getchar, _FDEV_SETUP_READ);
-    stdout = &uartout;
-    stdin = &uartin;
+    fdev_setup_stream(&serialOutput, serialWriteByte, NULL, _FDEV_SETUP_WRITE);
+    fdev_setup_stream(&serialInput, NULL, serialReadByte, _FDEV_SETUP_READ);
+    stdout = &serialOutput;
+    stdin = &serialInput;
 
-    printf("serial STDIO initialized\n");
-}
-
-bool serialIsDataAvailable()
-{
-    return Serial.available() > 0;
-}
-
-String serialReadMessage()
-{
-    return Serial.readStringUntil('\n');
-}
-
-void serialSendMessage(const char* message)
-{
-    Serial.println(message);
+    printf("serial initialized. use 'led on' or 'led off' to control the LED\n");
 }
 
 void serialProcess()
 {
-    char buffer[MAX_MESSAGE_LENGTH];
+    char command[MAX_MESSAGE_LENGTH]; // "led"
+    char modifier[MAX_MESSAGE_LENGTH]; // "on" or "off"
 
-    if (Serial.available()) {
-        if (fgets(buffer, MAX_MESSAGE_LENGTH, stdin) != NULL) {
-            // Remove trailing newline or carriage return
-            size_t len = strlen(buffer);
-            while (len > 0 && (buffer[len - 1] == '\n' || buffer[len - 1] == '\r')) {
-                buffer[len - 1] = '\0';
-                len--;
-            }
+    if (!Serial.available()) {
+        return;
+    }
 
-            if (strcmp(buffer, "led on") == 0) {
-                ledOn();
-                printf("LED turned ON\n");
-            } else if (strcmp(buffer, "led off") == 0) {
-                ledOff();
-                printf("LED turned OFF\n");
-            } else {
-                printf("Unknown command. Use 'led on' or 'led off'\n");
-            }
-        }
+    if (scanf("%s %s", command, modifier) != 2) {
+        while (Serial.available())
+            Serial.read();
+        return;
+    }
+
+    if (strcmp(command, "led") != 0) {
+        printf("unknown command\n");
+        return;
+    }
+
+    if (strcmp(modifier, "on") == 0) {
+        ledOn();
+        printf("LED turned ON\n");
+    } else if (strcmp(modifier, "off") == 0) {
+        ledOff();
+        printf("LED turned OFF\n");
+    } else {
+        printf("unknown modifier\n");
+    }
+
+    // clear buffer
+    while (Serial.available()) {
+        Serial.read();
     }
 }
