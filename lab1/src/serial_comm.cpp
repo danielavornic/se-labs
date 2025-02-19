@@ -38,38 +38,22 @@ void serialInit()
 
 void serialProcess()
 {
-    static char buffer[MAX_MESSAGE_LENGTH];
-    static size_t bufferIndex = 0;
+    char command[MAX_MESSAGE_LENGTH];
+    char modifier[MAX_MESSAGE_LENGTH];
 
-    while (Serial.available()) {
-        char c = Serial.read();
-
-        if (c == '\n' || c == '\r') {
-            if (bufferIndex > 0) {
-                buffer[bufferIndex] = '\0';
-
-                char command[MAX_MESSAGE_LENGTH];
-                char modifier[MAX_MESSAGE_LENGTH];
-
-                if (sscanf(buffer, "%s %s", command, modifier) == 2) {
-                    if (strcmp(command, "led") == 0) {
-                        if (strcmp(modifier, "on") == 0) {
-                            ledOn();
-                            printf("LED turned ON\n");
-                        } else if (strcmp(modifier, "off") == 0) {
-                            ledOff();
-                            printf("LED turned OFF\n");
-                        } else {
-                            printf("unknown modifier\n");
-                        }
-                    } else {
-                        printf("unknown command\n");
-                    }
-                }
-                bufferIndex = 0;
+    if (scanf("%s %s", command, modifier) == 2) {
+        if (strcmp(command, "led") == 0) {
+            if (strcmp(modifier, "on") == 0) {
+                ledOn();
+                printf("LED turned ON\n");
+            } else if (strcmp(modifier, "off") == 0) {
+                ledOff();
+                printf("LED turned OFF\n");
+            } else {
+                printf("unknown modifier\n");
             }
-        } else if (bufferIndex < MAX_MESSAGE_LENGTH - 1) {
-            buffer[bufferIndex++] = c;
+        } else {
+            printf("unknown command\n");
         }
     }
 }

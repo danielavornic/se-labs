@@ -7,7 +7,7 @@
 // speed for serial communication
 // 9600 is standard speed for Arduino
 #define SERIAL_BAUD_RATE 9600
-#define MAX_MESSAGE_LENGTH 7
+#define MAX_MESSAGE_LENGTH 10
 
 void serialInit();
 void serialProcess();
