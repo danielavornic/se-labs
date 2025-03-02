@@ -1,8 +1,10 @@
 #include "sys_timer.h"
+#include "../state_manager/state_manager.h"
 #include "../task_manager/task_manager.h"
 #include <Arduino.h>
 
 int buttonLedTaskCounter = BUTTON_LED_TASK_REC;
+int blinkingLedTaskCounter = BLINKING_LED_TASK_REC;
 int counterButtonsTaskCounter = COUNTER_BUTTONS_TASK_REC;
 
 void initSystemTimer()
@@ -38,12 +40,17 @@ ISR(TIMER1_COMPA_vect)
 
 void timeScheduler()
 {
+    int dynamicBlinkingLedTaskRec = BLINKING_LED_TASK_REC + (getCounter() * 50);
+
     if (--buttonLedTaskCounter <= 0) {
         buttonLedTaskCounter = BUTTON_LED_TASK_REC;
         taskButtonLed();
     }
 
-    taskBlinkingLed();
+    if (--blinkingLedTaskCounter <= 0) {
+        blinkingLedTaskCounter = dynamicBlinkingLedTaskRec;
+        taskBlinkingLed();
+    }
 
     if (--counterButtonsTaskCounter <= 0) {
         counterButtonsTaskCounter = COUNTER_BUTTONS_TASK_REC;

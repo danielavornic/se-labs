@@ -19,74 +19,45 @@ void taskButtonLed()
         updateLedOneState(newState);
         setLedState(LED_1_PIN, newState);
 
-        printf("Button 1 pressed: LED1 is now %s\n", newState ? "ON" : "OFF");
+        printf("Button 1 pressed: LED1 is now %s\n\n", newState ? "ON" : "OFF");
     }
 }
 
 void taskBlinkingLed()
 {
-    static int ledStateCounter = 0;
-
+    // only blink when LED1 is off
     if (!getLedOneState()) {
-        // how long LED2 stays in each state
-        // minimum time is 100ms, each counter unit adds 100ms
-        int blinkDuration = 100 + (getCounter() * 100);
-
-        ledStateCounter += SYS_TICK;
-
-        // check if it's time to toggle the LED
-        if (ledStateCounter >= blinkDuration) {
-            bool newState = !getLedTwoState();
-            updateLedTwoState(newState);
-            setLedState(BLINKING_LED_PIN, newState);
-
-            ledStateCounter = 0;
-        }
-
-        return;
-    }
-
-    // turn off LED2 when LED1 is ON
-    if (getLedTwoState()) {
+        bool newState = !getLedTwoState();
+        updateLedTwoState(newState);
+        setLedState(BLINKING_LED_PIN, newState);
+    } else {
         updateLedTwoState(false);
         setLedState(BLINKING_LED_PIN, false);
     }
-
-    ledStateCounter = 0;
 }
 
 void taskCounterButtons()
 {
-    if (getLedOneState()) {
-        return; // skip if LED1 is ON
-    }
-
-    static bool button2LastState = false;
-    static bool button3LastState = false;
-
-    bool button2CurrentState = isButtonPressed(BUTTON_2_PIN);
-    bool button3CurrentState = isButtonPressed(BUTTON_3_PIN);
-
-    if (button2CurrentState && !button2LastState) {
+    if (isButtonPressed(BUTTON_2_PIN)) {
         incrementCounter();
-        printf("Button 2 pressed: Counter incremented to %d\n", getCounter());
+        printf("Button 2 pressed: Counter incremented to %d\n\n", getCounter());
     }
 
-    if (button3CurrentState && !button3LastState) {
+    if (isButtonPressed(BUTTON_3_PIN)) {
         decrementCounter();
-        printf("Button 3 pressed: Counter decremented to %d\n", getCounter());
+        printf("Button 3 pressed: Counter decremented to %d\n\n", getCounter());
     }
-
-    // Update last states
-    button2LastState = button2CurrentState;
-    button3LastState = button3CurrentState;
 }
 
 void taskIdle()
 {
+    int counterValue = getCounter();
+    int blinkingLedTaskRec = BLINKING_LED_TASK_REC + (counterValue * 50);
+
     printf("System Status:\n");
     printf("LED1: %s\n", getLedOneState() ? "ON" : "OFF");
     printf("LED2: %s\n", getLedTwoState() ? "ON" : "OFF");
+
     printf("Counter: %d\n", getCounter());
-    printf("LED2 blink duration: %d ms\n", 100 + (getCounter() * 100));
+    printf("LED2 blink interval: %d ms\n\n", blinkingLedTaskRec);
 }
