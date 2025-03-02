@@ -1,6 +1,6 @@
 #include "lcd_control.h"
 
-static LiquidCrystal lcd(LCD_RS, LCD_EN, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
+static LiquidCrystal_I2C lcd(0x27, 16, 2);
 FILE lcdOutput = { 0 };
 
 int lcdPutchar(char c, FILE* stream)
@@ -20,6 +20,8 @@ int lcdPutchar(char c, FILE* stream)
 void lcdInit()
 {
     // initialize lcd
+    lcd.init();
+    lcd.backlight();
     lcd.begin(16, 2);
 
     fdev_setup_stream(&lcdOutput, lcdPutchar, NULL, _FDEV_SETUP_WRITE);

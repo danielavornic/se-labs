@@ -17,8 +17,10 @@ const char KEYS[ROWS][COLS] = {
     { '*', '0', '#', 'D' }
 };
 
-const byte ROW_PINS[ROWS] = { 30, 32, 34, 36 };
-const byte COL_PINS[COLS] = { 38, 40, 42, 44 };
+// const byte ROW_PINS[ROWS] = { 30, 32, 34, 36 };
+// const byte COL_PINS[COLS] = { 38, 40, 42, 44 };
+const byte ROW_PINS[ROWS] = { 10, 9, 8, 7 };
+const byte COL_PINS[COLS] = { 6, 5, 4, 3 };
 
 void keypadInit();
 int keypadGetChar(FILE* stream);

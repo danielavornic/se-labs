@@ -11,9 +11,12 @@ void keypadInit()
 
 int keypadGetChar(FILE* stream)
 {
-    char key = NO_KEY;
-    while ((key = keypad.getKey()) == NO_KEY) {
+    while (true) {
+        char key = keypad.getKey();
+        // if key is pressed
+        if (key != NO_KEY) {
+            return key;
+        }
         delay(50);
     }
-    return key;
 }
