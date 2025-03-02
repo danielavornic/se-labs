@@ -4,12 +4,12 @@
 volatile SystemState globalState = {
     .ledOneState = false,
     .ledTwoState = false,
-    .counter = 0
+    .counter = 0,
 };
 
 void initStateManager()
 {
-    globalState.ledOneState = false;
+    globalState.ledOneState = true;
     globalState.ledTwoState = false;
     globalState.counter = 0;
 }

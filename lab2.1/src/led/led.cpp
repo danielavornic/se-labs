@@ -5,7 +5,7 @@ void initLeds()
 {
     pinMode(LED_1_PIN, OUTPUT);
     pinMode(BLINKING_LED_PIN, OUTPUT);
-    digitalWrite(LED_1_PIN, LOW);
+    digitalWrite(LED_1_PIN, HIGH);
     digitalWrite(BLINKING_LED_PIN, LOW);
 }
 

@@ -1,6 +1,7 @@
 #include "button.h"
 #include <Arduino.h>
 
+// for each button
 static unsigned long lastDebounceTime[3] = { 0, 0, 0 };
 static bool lastButtonState[3] = { false, false, false };
 static bool buttonState[3] = { false, false, false };
@@ -14,31 +15,15 @@ void initButtons()
 
 bool isButtonPressed(int pin)
 {
-    int buttonIndex = pin - 2; // Convert pin number to array index
-    bool reading = !digitalRead(pin); // Inverted because of INPUT_PULLUP
-    bool pressed = reading != lastButtonState[buttonIndex];
+    static bool lastState[3] = { false, false, false };
+    int buttonIndex = pin - 2;
 
-    if (pressed) {
-        // reset the debouncing timer
-        lastDebounceTime[buttonIndex] = millis();
-    }
+    // inverted because of INPUT_PULLUP
+    bool currentState = !digitalRead(pin);
 
-    // if enough time has passed, the button state stable
-    bool debounced = (millis() - lastDebounceTime[buttonIndex]) > DEBOUNCE_DELAY;
+    bool result = currentState && !lastState[buttonIndex];
 
-    if (debounced) {
-        // if the button state has changed
-        if (reading != buttonState[buttonIndex]) {
-            buttonState[buttonIndex] = reading;
+    lastState[buttonIndex] = currentState;
 
-            // on button press
-            if (buttonState[buttonIndex] == true) {
-                lastButtonState[buttonIndex] = reading;
-                return true;
-            }
-        }
-    }
-
-    lastButtonState[buttonIndex] = reading;
-    return false;
+    return result;
 }
