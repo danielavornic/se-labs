@@ -11,10 +11,10 @@
       "attrs": {}
     },
     {
-      "type": "wokwi-arduino-uno",
-      "id": "uno",
+      "type": "wokwi-arduino-mega",
+      "id": "mega",
       "top": 48.6,
-      "left": -0.6,
+      "left": -22.8,
       "attrs": {}
     },
     {
@@ -22,22 +22,6 @@
       "id": "btn1",
       "top": -104.6,
       "left": 340,
-      "rotate": 90,
-      "attrs": { "color": "green", "xray": "1" }
-    },
-    {
-      "type": "wokwi-pushbutton-6mm",
-      "id": "btn2",
-      "top": -104.6,
-      "left": 292,
-      "rotate": 90,
-      "attrs": { "color": "green", "xray": "1" }
-    },
-    {
-      "type": "wokwi-pushbutton-6mm",
-      "id": "btn3",
-      "top": -104.6,
-      "left": 253.6,
       "rotate": 90,
       "attrs": { "color": "green", "xray": "1" }
     },
@@ -69,31 +53,21 @@
       "id": "led2",
       "top": -186,
       "left": 109.4,
-      "attrs": { "color": "red" }
+      "attrs": { "color": "green" }
     }
   ],
   "connections": [
-    ["uno:GND.3", "bb1:bn.25", "black", ["v19.1", "h196"]],
+    ["mega:GND.3", "bb1:bn.25", "black", ["v19.1", "h196"]],
     ["bb1:bn.24", "bb1:29b.j", "black", ["v0"]],
-    ["uno:2", "bb1:27b.j", "green", ["v-19.2", "h109.7"]],
-    ["bb1:bn.20", "bb1:24b.j", "black", ["v0"]],
-    ["bb1:22b.j", "uno:3", "green", ["v67.2", "h-67.2"]],
-    ["bb1:bn.16", "bb1:20b.j", "black", ["v0"]],
-    ["bb1:18b.j", "uno:4", "green", ["v57.6", "h-38.4"]],
-    ["uno:12", "bb1:9b.j", "green", ["v-19.2", "h38.9"]],
-    ["bb1:5b.j", "uno:13", "green", ["v67.2", "h-9.6"]],
+    ["mega:2", "bb1:27b.j", "green", ["v-19.2", "h109.7"]],
+    ["mega:12", "bb1:9b.j", "red", ["v-19.2", "h38.9"]],
+    ["bb1:5b.j", "mega:13", "green", ["v67.2", "h-9.6"]],
+    ["bb1:bn.6", "bb1:8t.e", "black", ["v0"]],
+    ["bb1:bn.3", "bb1:4t.e", "black", ["v0"]],
     ["btn1:1.l", "bb1:29t.e", "", ["$bb"]],
     ["btn1:2.l", "bb1:27t.e", "", ["$bb"]],
     ["btn1:1.r", "bb1:29b.f", "", ["$bb"]],
     ["btn1:2.r", "bb1:27b.f", "", ["$bb"]],
-    ["btn2:1.l", "bb1:24t.e", "", ["$bb"]],
-    ["btn2:2.l", "bb1:22t.e", "", ["$bb"]],
-    ["btn2:1.r", "bb1:24b.f", "", ["$bb"]],
-    ["btn2:2.r", "bb1:22b.f", "", ["$bb"]],
-    ["btn3:1.l", "bb1:20t.e", "", ["$bb"]],
-    ["btn3:2.l", "bb1:18t.e", "", ["$bb"]],
-    ["btn3:1.r", "bb1:20b.f", "", ["$bb"]],
-    ["btn3:2.r", "bb1:18b.f", "", ["$bb"]],
     ["led1:A", "bb1:9t.a", "", ["$bb"]],
     ["led1:C", "bb1:8t.a", "", ["$bb"]],
     ["r1:1", "bb1:9b.h", "", ["$bb"]],
@@ -101,9 +75,7 @@
     ["r2:1", "bb1:5b.h", "", ["$bb"]],
     ["r2:2", "bb1:5t.d", "", ["$bb"]],
     ["led2:A", "bb1:5t.a", "", ["$bb"]],
-    ["led2:C", "bb1:4t.a", "", ["$bb"]],
-    ["bb1:bn.6", "bb1:8t.e", "black", ["v0"]],
-    ["bb1:bn.3", "bb1:4t.e", "black", ["v0"]]
+    ["led2:C", "bb1:4t.a", "", ["$bb"]]
   ],
   "dependencies": {}
 }
