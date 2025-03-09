@@ -1,27 +1,27 @@
+#include "button/button.h"
+#include "config/config.h"
+#include "globals/globals.h"
+#include "led/led.h"
+#include "serial_comm/serial_comm.h"
 #include "tasks/tasks.h"
 #include <Arduino.h>
 #include <Arduino_FreeRTOS.h>
 
 void setup()
 {
-    Serial.begin(9600);
+    initSerial();
+    initButton();
+    initLEDs();
+    initGlobals();
 
-    while (!Serial) {
-        ; // wait for serial port to connect
-    }
-
-    Serial.println(F("FreeRTOS Task Management Demo"));
-    Serial.println(F("-------------------------------"));
-
-    tasksInit();
+    xTaskCreate(buttonLedTask, "buttonLedTask", BUTTON_TASK_STACK_SIZE, NULL, TASK_PRIORITY, NULL);
+    xTaskCreate(syncTask, "syncTask", SYNC_TASK_STACK_SIZE, NULL, TASK_PRIORITY, NULL);
+    xTaskCreate(asyncTask, "asyncTask", ASYNC_TASK_STACK_SIZE, NULL, TASK_PRIORITY, NULL);
 
     vTaskStartScheduler();
-
-    // should never get here
-    Serial.println("Scheduler failed to start!");
 }
 
 void loop()
 {
-    // Empty. Things are done in Tasks.
+    // empty bc of FreeRTOS
 }

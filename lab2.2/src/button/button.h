@@ -3,8 +3,7 @@
 
 #include <Arduino.h>
 
-void buttonInit(uint8_t pin);
-
-bool isButtonPressed(uint8_t pin);
+void initButton();
+bool isButtonPressed();
 
 #endif

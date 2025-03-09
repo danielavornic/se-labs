@@ -1,75 +1,18 @@
 #include "led.h"
-#include <Arduino_FreeRTOS.h>
+#include "../config/config.h"
 
-static SemaphoreHandle_t ledMutex = NULL;
-
-static volatile bool isBlinking[14] = { false }; // pins 0-13
-
-bool ledInit(uint8_t pin)
+void initLEDs()
 {
-    // Create mutex if not already created
-    if (ledMutex == NULL) {
-        ledMutex = xSemaphoreCreateMutex();
-        if (ledMutex == NULL) {
-            Serial.println("Failed to create LED mutex!");
-            return false;
-        }
-    }
-
-    pinMode(pin, OUTPUT);
-    digitalWrite(pin, LOW);
-    Serial.println("LED initialized");
-    return true;
+    pinMode(LED1_PIN, OUTPUT);
+    pinMode(LED2_PIN, OUTPUT);
 }
 
-void ledTurnOn(uint8_t pin)
+void setLED1(bool state)
 {
-    if (xSemaphoreTake(ledMutex, portMAX_DELAY) == pdTRUE) {
-        digitalWrite(pin, HIGH);
-        xSemaphoreGive(ledMutex);
-    }
+    digitalWrite(LED1_PIN, state ? HIGH : LOW);
 }
 
-void ledTurnOff(uint8_t pin)
+void setLED2(bool state)
 {
-    if (xSemaphoreTake(ledMutex, portMAX_DELAY) == pdTRUE) {
-        digitalWrite(pin, LOW);
-        xSemaphoreGive(ledMutex);
-    }
-}
-
-void ledToggle(uint8_t pin)
-{
-    if (xSemaphoreTake(ledMutex, portMAX_DELAY) == pdTRUE) {
-        digitalWrite(pin, !digitalRead(pin));
-        xSemaphoreGive(ledMutex);
-    }
-}
-
-void ledBlinkNTimes(uint8_t pin, uint8_t n, uint16_t onTime, uint16_t offTime)
-{
-    if (xSemaphoreTake(ledMutex, portMAX_DELAY) == pdTRUE) {
-        isBlinking[pin] = true;
-
-        for (uint8_t i = 0; i < n; i++) {
-            digitalWrite(pin, HIGH);
-            vTaskDelay(pdMS_TO_TICKS(onTime));
-            digitalWrite(pin, LOW);
-            vTaskDelay(pdMS_TO_TICKS(offTime));
-        }
-
-        isBlinking[pin] = false;
-        digitalWrite(pin, LOW);
-        xSemaphoreGive(ledMutex);
-    }
-}
-
-bool isLedBlinking(uint8_t pin)
-{
-    bool status = false;
-    if (xSemaphoreTake(ledMutex, portMAX_DELAY) == pdTRUE) {
-        status = isBlinking[pin];
-        xSemaphoreGive(ledMutex);
-    }
-    return status;
+    digitalWrite(LED2_PIN, state ? HIGH : LOW);
 }

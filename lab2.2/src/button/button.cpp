@@ -1,25 +1,12 @@
 #include "button.h"
+#include "../config/config.h"
 
-static uint8_t lastButtonState = HIGH;
-static unsigned long lastDebounceTime = 0;
-static const unsigned long debounceDelay = 50;
-
-void buttonInit(uint8_t pin)
+void initButton()
 {
-    pinMode(pin, INPUT_PULLUP);
-    Serial.println("Button initialized");
+    pinMode(BUTTON_PIN, INPUT_PULLUP);
 }
 
-bool isButtonPressed(uint8_t pin)
+bool isButtonPressed()
 {
-    static uint8_t lastState = HIGH;
-    uint8_t currentState = digitalRead(pin);
-    bool pressed = false;
-
-    if (currentState == LOW && lastState == HIGH) {
-        pressed = true;
-    }
-
-    lastState = currentState;
-    return pressed;
+    return digitalRead(BUTTON_PIN) == LOW;
 }
