@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "author": "Daniela Vornic",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-breadboard-half",
+      "id": "bb1",
+      "top": -204.6,
+      "left": 70,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-arduino-mega",
+      "id": "mega",
+      "top": 39,
+      "left": 121.2,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led1",
+      "top": -195.6,
+      "left": 147.8,
+      "attrs": { "color": "red" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": -102.2,
+      "left": 143.15,
+      "rotate": 270,
+      "attrs": { "value": "220" }
+    },
+    {
+      "type": "wokwi-hc-sr04",
+      "id": "ultrasonic1",
+      "top": -248.1,
+      "left": 207.1,
+      "attrs": {}
+    }
+  ],
+  "connections": [
+    ["bb1:bn.6", "bb1:8t.e", "black", ["v0"]],
+    ["bb1:23t.e", "bb1:bn.19", "black", ["v0"]],
+    ["bb1:20t.e", "mega:5V", "black", ["v144", "h240", "v211.2", "h-232.7"]],
+    ["bb1:9b.j", "mega:12", "red", ["v76.8", "h9.6"]],
+    ["bb1:21t.e", "mega:9", "violet", ["v0"]],
+    ["led1:A", "bb1:9t.a", "", ["$bb"]],
+    ["led1:C", "bb1:8t.a", "", ["$bb"]],
+    ["r1:1", "bb1:9b.h", "", ["$bb"]],
+    ["r1:2", "bb1:9t.d", "", ["$bb"]],
+    ["ultrasonic1:VCC", "bb1:20t.a", "", ["$bb"]],
+    ["ultrasonic1:TRIG", "bb1:21t.a", "", ["$bb"]],
+    ["ultrasonic1:ECHO", "bb1:22t.a", "", ["$bb"]],
+    ["ultrasonic1:GND", "bb1:23t.a", "", ["$bb"]],
+    ["bb1:22t.e", "mega:8", "blue", ["v0"]],
+    [
+      "bb1:bn.25",
+      "mega:GND.2",
+      "black",
+      ["v27.5", "h155.2", "v230.4", "h-230.4"]
+    ]
+  ],
+  "dependencies": {}
+}
