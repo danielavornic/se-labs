@@ -1,0 +1,11 @@
+#ifndef CONFIG_H
+#define CONFIG_H
+
+#define RELAY_PIN 2
+
+#define TASK_PRIORITY 1
+#define COMMAND_PROCESSOR_TASK_STACK_SIZE 128
+
+#define MAX_COMMAND_LENGTH 20
+
+#endif
