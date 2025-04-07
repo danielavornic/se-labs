@@ -23,8 +23,6 @@ void motorSetSpeed(int8_t speed)
     analogWrite(MOTOR_ENA_PIN, pwmValue);
 
     if (speed > 0) {
-        pinMode(MOTOR_IN1_PIN, OUTPUT);
-        pinMode(MOTOR_IN2_PIN, OUTPUT);
         digitalWrite(MOTOR_IN1_PIN, HIGH);
         digitalWrite(MOTOR_IN2_PIN, LOW);
     } else if (speed < 0) {

@@ -6,9 +6,8 @@ static FILE serialInput = { 0 };
 
 static int serialWriteByte(char c, FILE* stream)
 {
-    if (c == '\n' || c == '\r') {
+    if (c == '\n') {
         Serial.write('\n');
-        Serial.write('\r');
     } else {
         Serial.write(c);
     }
