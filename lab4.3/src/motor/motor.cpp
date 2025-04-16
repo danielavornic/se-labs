@@ -1,8 +1,10 @@
 #include "motor.h"
+#include "../globals/globals.h"
 
 static int currentPosition = 0;
 static int targetSetpoint = DEFAULT_SETPOINT;
 static int hysteresisBand = DEFAULT_HYSTERESIS;
+static int lastMotorState = 0; // 0=stop, 1=forward, -1=backward
 
 void motorInit()
 {
@@ -17,48 +19,63 @@ void motorInit()
     currentPosition = 0;
     targetSetpoint = DEFAULT_SETPOINT;
     hysteresisBand = DEFAULT_HYSTERESIS;
+    lastMotorState = 0;
 }
 
 void motorUpdatePosition(int position)
 {
     currentPosition = position;
+    int lowerBound = targetSetpoint - hysteresisBand;
+    int upperBound = targetSetpoint + hysteresisBand;
 
-    // Calculate error and control bounds
-    int error = targetSetpoint - currentPosition;
-    int upperBound = hysteresisBand;
-    int lowerBound = -hysteresisBand;
-
-    // Apply hysteresis control
     uint8_t pwmValue = map(MOTOR_POWER, 0, 100, 0, 255);
+    int newMotorState;
 
-    if (error > upperBound) {
-        // Need to move forward - position too low
+    if (currentPosition < lowerBound) {
+        // move forward
         digitalWrite(MOTOR_IN1_PIN, HIGH);
         digitalWrite(MOTOR_IN2_PIN, LOW);
         analogWrite(MOTOR_ENA_PIN, pwmValue);
-        printf("Motor running FORWARD (50%%) - Position %d below target range [%d to %d]\n",
-            currentPosition, targetSetpoint - hysteresisBand, targetSetpoint + hysteresisBand);
-    } else if (error < lowerBound) {
-        // Need to move backward - position too high
+        newMotorState = 1;
+    } else if (currentPosition > upperBound) {
+        // move backward
         digitalWrite(MOTOR_IN1_PIN, LOW);
         digitalWrite(MOTOR_IN2_PIN, HIGH);
         analogWrite(MOTOR_ENA_PIN, pwmValue);
-        printf("Motor running BACKWARD (50%%) - Position %d above target range [%d to %d]\n",
-            currentPosition, targetSetpoint - hysteresisBand, targetSetpoint + hysteresisBand);
+        newMotorState = -1;
     } else {
-        // Within hysteresis band - stop motor
+        // within hysteresis band - stop motor
         digitalWrite(MOTOR_IN1_PIN, LOW);
         digitalWrite(MOTOR_IN2_PIN, LOW);
         analogWrite(MOTOR_ENA_PIN, 0);
-        printf("Motor STOPPED - Position %d within target range [%d to %d]\n",
-            currentPosition, targetSetpoint - hysteresisBand, targetSetpoint + hysteresisBand);
+        newMotorState = 0;
+    }
+
+    if (newMotorState != lastMotorState) {
+        if (xSemaphoreTake(serialMutex, portMAX_DELAY) == pdTRUE) {
+            switch (newMotorState) {
+            case 1:
+                printf("Motor: FORWARD - Position %d below range [%d to %d]\n",
+                    currentPosition, lowerBound, upperBound);
+                break;
+            case -1:
+                printf("Motor: BACKWARD - Position %d above range [%d to %d]\n",
+                    currentPosition, lowerBound, upperBound);
+                break;
+            case 0:
+                printf("Motor: STOPPED - Position %d within range [%d to %d]\n",
+                    currentPosition, lowerBound, upperBound);
+                break;
+            }
+            xSemaphoreGive(serialMutex);
+        }
+        lastMotorState = newMotorState;
     }
 }
 
 void motorSetSetpoint(int setpoint)
 {
     targetSetpoint = setpoint;
-    // Immediately check if we need to move
     motorUpdatePosition(currentPosition);
 }
 
@@ -67,6 +84,12 @@ void motorStop()
     digitalWrite(MOTOR_IN1_PIN, LOW);
     digitalWrite(MOTOR_IN2_PIN, LOW);
     analogWrite(MOTOR_ENA_PIN, 0);
+
+    if (xSemaphoreTake(serialMutex, portMAX_DELAY) == pdTRUE) {
+        printf("Motor: Emergency STOP\n");
+        xSemaphoreGive(serialMutex);
+    }
+    lastMotorState = 0;
 }
 
 int motorGetPosition()
@@ -83,7 +106,6 @@ void motorSetHysteresis(int value)
 {
     if (value > 0) {
         hysteresisBand = value;
-        // Immediately check if the new hysteresis affects motor control
         motorUpdatePosition(currentPosition);
     }
 }
