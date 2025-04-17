@@ -3,7 +3,6 @@
 
 #include <Arduino_FreeRTOS.h>
 
-// Function declaration for the motor control task
 void motorControlTask(void* pvParameters);
 
-#endif // MOTOR_CONTROL_H
+#endif

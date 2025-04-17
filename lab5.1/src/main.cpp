@@ -1,3 +1,4 @@
+#include "button/button.h"
 #include "config/config.h"
 #include "globals/globals.h"
 #include "motor/motor.h"
@@ -9,9 +10,12 @@
 void setup()
 {
     initSerial();
-    motorInit();
+    initButtons();
+    initMotor();
     initGlobals();
     createTasks();
+
+    printf("Motor Control Initialized\n");
 
     vTaskStartScheduler();
 }

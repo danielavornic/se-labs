@@ -6,7 +6,7 @@ static int targetSetpoint = DEFAULT_SETPOINT;
 static int hysteresisBand = DEFAULT_HYSTERESIS;
 static int lastMotorState = 0; // 0=stop, 1=forward, -1=backward
 
-void motorInit()
+void initMotor()
 {
     pinMode(MOTOR_IN1_PIN, OUTPUT);
     pinMode(MOTOR_IN2_PIN, OUTPUT);
@@ -79,38 +79,7 @@ void motorSetSetpoint(int setpoint)
     motorUpdatePosition(currentPosition);
 }
 
-void motorStop()
-{
-    digitalWrite(MOTOR_IN1_PIN, LOW);
-    digitalWrite(MOTOR_IN2_PIN, LOW);
-    analogWrite(MOTOR_ENA_PIN, 0);
-
-    if (xSemaphoreTake(serialMutex, portMAX_DELAY) == pdTRUE) {
-        printf("Motor: Emergency STOP\n");
-        xSemaphoreGive(serialMutex);
-    }
-    lastMotorState = 0;
-}
-
-int motorGetPosition()
-{
-    return currentPosition;
-}
-
 int motorGetSetpoint()
 {
     return targetSetpoint;
-}
-
-void motorSetHysteresis(int value)
-{
-    if (value > 0) {
-        hysteresisBand = value;
-        motorUpdatePosition(currentPosition);
-    }
-}
-
-int motorGetHysteresis()
-{
-    return hysteresisBand;
 }

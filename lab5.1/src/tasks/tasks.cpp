@@ -1,6 +1,6 @@
 #include "tasks.h"
 #include "../config/config.h"
-#include "command_processing/command_processing.h"
+#include "button_handler/button_handler.h"
 #include "motor_control/motor_control.h"
 #include "potentiometer/potentiometer.h"
 
@@ -11,15 +11,7 @@ void createTasks()
         "PotentiometerTask",
         1024,
         NULL,
-        3,
-        NULL);
-
-    xTaskCreate(
-        commandProcessingTask,
-        "CommandProcessing",
-        1024,
-        NULL,
-        1,
+        POTENTIOMETER_TASK_PRIORITY,
         NULL);
 
     xTaskCreate(
@@ -27,6 +19,14 @@ void createTasks()
         "MotorControl",
         1024,
         NULL,
-        2,
+        MOTOR_TASK_PRIORITY,
+        NULL);
+
+    xTaskCreate(
+        buttonHandlerTask,
+        "ButtonHandler",
+        1024,
+        NULL,
+        BUTTON_TASK_PRIORITY,
         NULL);
 }
