@@ -15,8 +15,6 @@ void setup()
     initGlobals();
     createTasks();
 
-    printf("Motor Control Initialized\n");
-
     vTaskStartScheduler();
 }
 

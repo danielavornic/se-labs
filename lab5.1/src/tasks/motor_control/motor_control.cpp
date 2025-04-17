@@ -15,9 +15,9 @@ void motorControlTask(void* pvParameters)
                 break;
             case MOTOR_SET_SETPOINT:
                 motorSetSetpoint(command.value);
-                if (xSemaphoreTake(serialMutex, portMAX_DELAY) == pdTRUE) {
-                    printf("Setpoint updated to: %d\n", command.value);
-                    xSemaphoreGive(serialMutex);
+                if (xSemaphoreTake(g_statusMutex, portMAX_DELAY) == pdTRUE) {
+                    g_systemStatus.targetPosition = command.value;
+                    xSemaphoreGive(g_statusMutex);
                 }
                 break;
             default:

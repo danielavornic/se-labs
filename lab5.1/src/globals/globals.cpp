@@ -1,10 +1,14 @@
 #include "globals.h"
 
 QueueHandle_t motorCommandQueue;
-SemaphoreHandle_t serialMutex;
+SystemStatus g_systemStatus;
+SemaphoreHandle_t g_statusMutex;
 
 void initGlobals(void)
 {
     motorCommandQueue = xQueueCreate(5, sizeof(MotorCommand));
-    serialMutex = xSemaphoreCreateMutex();
+    g_statusMutex = xSemaphoreCreateMutex();
+
+    g_systemStatus.currentPosition = 0;
+    g_systemStatus.targetPosition = 0;
 }

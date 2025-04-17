@@ -7,7 +7,15 @@
 #include <semphr.h>
 
 extern QueueHandle_t motorCommandQueue;
-extern SemaphoreHandle_t serialMutex;
+
+typedef struct {
+    int currentPosition;
+    int targetPosition;
+} SystemStatus;
+
+extern SystemStatus g_systemStatus;
+
+extern SemaphoreHandle_t g_statusMutex;
 
 void initGlobals(void);
 
