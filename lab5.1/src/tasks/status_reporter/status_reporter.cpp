@@ -1,4 +1,5 @@
 #include "status_reporter.h"
+#include "../../../../lab3.2/src/led/led.h"
 #include "../../config/config.h"
 #include "../../globals/globals.h"
 #include <stdio.h>
@@ -27,6 +28,9 @@ void statusReporterTask(void* pvParameters)
             upperBound = g_systemStatus.targetPosition + DEFAULT_HYSTERESIS;
             xSemaphoreGive(g_statusMutex);
         }
+
+        bool isInBounds = currentPos >= lowerBound && currentPos <= upperBound;
+        setLED(isInBounds);
 
         printf("Status - Pos: %d, Target: %d, Bounds: [%d, %d]\n", currentPos, targetPos, lowerBound, upperBound);
     }
