@@ -28,21 +28,14 @@ void motorUpdatePosition(int position)
 
     uint8_t pwmValue = map(MOTOR_POWER, 0, 100, 0, 255);
 
-    if (currentPosition < lowerBound) {
-        // move forward
-        digitalWrite(MOTOR_IN1_PIN, HIGH);
-        digitalWrite(MOTOR_IN2_PIN, LOW);
-        analogWrite(MOTOR_ENA_PIN, pwmValue);
-    } else if (currentPosition > upperBound) {
-        // move backward
-        digitalWrite(MOTOR_IN1_PIN, LOW);
-        digitalWrite(MOTOR_IN2_PIN, HIGH);
-        analogWrite(MOTOR_ENA_PIN, pwmValue);
-    } else {
-        // within hysteresis band - stop motor
+    if (currentPosition <= lowerBound) {
         digitalWrite(MOTOR_IN1_PIN, LOW);
         digitalWrite(MOTOR_IN2_PIN, LOW);
         analogWrite(MOTOR_ENA_PIN, 0);
+    } else if (currentPosition >= upperBound) {
+        digitalWrite(MOTOR_IN1_PIN, LOW);
+        digitalWrite(MOTOR_IN2_PIN, HIGH);
+        analogWrite(MOTOR_ENA_PIN, pwmValue);
     }
 }
 
