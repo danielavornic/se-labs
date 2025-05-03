@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "author": "Daniela Vornic",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-breadboard-half",
+      "id": "bb1",
+      "top": -195,
+      "left": 70,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-arduino-uno",
+      "id": "mega",
+      "top": 48.6,
+      "left": 37.8,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-pushbutton-6mm",
+      "id": "btn1",
+      "top": -104.6,
+      "left": 340,
+      "rotate": 90,
+      "attrs": { "color": "green", "xray": "1" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led1",
+      "top": -186,
+      "left": 147.8,
+      "attrs": { "color": "red" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": -92.6,
+      "left": 143.15,
+      "rotate": 270,
+      "attrs": { "value": "220" }
+    }
+  ],
+  "connections": [
+    ["mega:GND.3", "bb1:bn.25", "black", ["v19.1", "h196"]],
+    ["bb1:bn.24", "bb1:29b.j", "black", ["v0"]],
+    ["mega:2", "bb1:27b.j", "green", ["v-19.2", "h109.7"]],
+    ["bb1:bn.6", "bb1:8t.e", "black", ["v0"]],
+    ["btn1:1.l", "bb1:29t.e", "", ["$bb"]],
+    ["btn1:2.l", "bb1:27t.e", "", ["$bb"]],
+    ["btn1:1.r", "bb1:29b.f", "", ["$bb"]],
+    ["btn1:2.r", "bb1:27b.f", "", ["$bb"]],
+    ["led1:A", "bb1:9t.a", "", ["$bb"]],
+    ["led1:C", "bb1:8t.a", "", ["$bb"]],
+    ["r1:1", "bb1:9b.h", "", ["$bb"]],
+    ["r1:2", "bb1:9t.d", "", ["$bb"]],
+    ["bb1:9b.j", "mega:12", "green", ["v0"]]
+  ],
+  "dependencies": {}
+}
