@@ -1,9 +1,4 @@
 #include "button_handler.h"
-#include "../../button/button.h"
-#include "../../config/config.h"
-#include "../../globals/globals.h"
-#include "../../motor/motor.h"
-#include <Arduino.h>
 
 void buttonHandlerTask(void* pvParameters)
 {

@@ -1,8 +1,4 @@
 #include "status_reporter.h"
-#include "../../../../lab3.2/src/led/led.h"
-#include "../../config/config.h"
-#include "../../globals/globals.h"
-#include <stdio.h>
 
 const TickType_t REPORTING_INTERVAL = pdMS_TO_TICKS(500);
 

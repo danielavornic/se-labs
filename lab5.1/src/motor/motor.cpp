@@ -1,5 +1,4 @@
 #include "motor.h"
-#include "../globals/globals.h"
 
 static int currentPosition = 0;
 static int targetSetpoint = DEFAULT_SETPOINT;

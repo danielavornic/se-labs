@@ -1,5 +1,4 @@
 #include "potentiometer.h"
-#include <stdlib.h>
 
 void potentiometerTask(void* pvParameters)
 {

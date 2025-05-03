@@ -1,7 +1,4 @@
 #include "button.h"
-#include "../config/config.h"
-
-#define DEBOUNCE_DELAY_MS 50
 
 static bool lastIncButtonState = HIGH;
 static bool lastDecButtonState = HIGH;

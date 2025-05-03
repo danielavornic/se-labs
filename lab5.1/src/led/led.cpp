@@ -1,5 +1,4 @@
 #include "led.h"
-#include "../config/config.h"
 
 void initLED()
 {

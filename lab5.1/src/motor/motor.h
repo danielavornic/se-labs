@@ -2,6 +2,7 @@
 #define MOTOR_H
 
 #include "../config/config.h"
+#include "../globals/globals.h"
 #include <Arduino.h>
 
 void initMotor();

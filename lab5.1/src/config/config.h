@@ -3,14 +3,14 @@
 
 #include <Arduino_FreeRTOS.h>
 
-#define MOTOR_IN1_PIN 8
-#define MOTOR_IN2_PIN 9
-#define MOTOR_ENA_PIN 10
+#define MOTOR_IN1_PIN 3
+#define MOTOR_IN2_PIN 4
+#define MOTOR_ENA_PIN 5
 
 #define POT_PIN A0
 
-#define BUTTON_INC_PIN 2
-#define BUTTON_DEC_PIN 3
+#define BUTTON_INC_PIN 9
+#define BUTTON_DEC_PIN 10
 
 #define LED_PIN 13
 
