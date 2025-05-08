@@ -1,15 +1,17 @@
 #include "globals.h"
 
-QueueHandle_t motorCommandQueue;
-SystemStatus g_systemStatus;
-SemaphoreHandle_t g_statusMutex;
+PIDConfig pidConfig = {
+    .kp = 0.06f,
+    .ki = 0.00008f,
+    .kd = 0.0059f,
+    .minOutput = 5,
+    .maxOutput = 255
+};
 
-void initGlobals(void)
-{
-    motorCommandQueue = xQueueCreate(5, sizeof(MotorCommand));
-    g_statusMutex = xSemaphoreCreateMutex();
-
-    g_systemStatus.currentPosition = 0;
-    g_systemStatus.targetPosition = 0;
-    g_systemStatus.pidOutput = 0;
-}
+SystemState state = {
+    .speed = 0,
+    .setpoint = 0,
+    .output = 10,
+    .lastError = 0,
+    .integralError = 0
+};

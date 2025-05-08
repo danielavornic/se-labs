@@ -5,6 +5,7 @@
 #include <stdio.h>
 
 #define SERIAL_BAUD_RATE 9600
+
 void initSerial();
 
 #endif

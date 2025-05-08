@@ -1,22 +1,36 @@
-#include "button/button.h"
+#include "encoder/encoder.h"
 #include "globals/globals.h"
 #include "motor/motor.h"
+#include "pid/pid.h"
 #include "potentiometer/potentiometer.h"
 #include "serial_comm/serial_comm.h"
-#include "tasks/tasks.h"
-#include <Arduino.h>
-#include <Arduino_FreeRTOS.h>
+#include "timing/timing.h"
 
 void setup()
 {
     initSerial();
-    initButtons();
+    initEncoder();
     initPotentiometer();
     initMotor();
-    initGlobals();
-    createTasks();
-
-    vTaskStartScheduler();
+    initTiming();
 }
 
-void loop() { }
+void loop()
+{
+    if (isUpdateDue()) {
+        state.setpoint = readSetpointFromPot();
+        state.speed = measureSpeed();
+
+        updatePIDController();
+        checkAndApplyProtections();
+        applyMotorOutput();
+
+        printf("SP=%d, Value=%d, Output=%d", state.setpoint, state.speed, state.output);
+        if (protectionHasOverriddenOutput) {
+            printf(" (PROTECTION OVERRIDE)");
+        }
+        printf("\n");
+
+        markUpdateTime();
+    }
+}

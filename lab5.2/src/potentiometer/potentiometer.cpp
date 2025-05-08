@@ -2,12 +2,10 @@
 
 void initPotentiometer()
 {
-    pinMode(POT_PIN, INPUT);
+    pinMode(POT_IN, INPUT);
 }
 
-int readPotentiometer()
+int readSetpointFromPot()
 {
-    int rawValue = analogRead(POT_PIN);
-    int mappedValue = map(rawValue, ADC_MIN, ADC_MAX, POSITION_MIN, POSITION_MAX);
-    return constrain(mappedValue, POSITION_MIN, POSITION_MAX);
+    return map(analogRead(POT_IN), 0, 1023, 0, 600);
 }

@@ -1,12 +1,11 @@
 #ifndef POTENTIOMETER_H
 #define POTENTIOMETER_H
 
-#include "../globals/globals.h"
 #include <Arduino.h>
 
-#define POT_PIN A0
+#define POT_IN A0
 
 void initPotentiometer();
-int readPotentiometer();
+int readSetpointFromPot();
 
 #endif

@@ -1,40 +1,25 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
-#include <Arduino_FreeRTOS.h>
-#include <queue.h>
-#include <semphr.h>
+#include <Arduino.h>
 
-#define DEFAULT_SETPOINT 0
+struct PIDConfig {
+    float kp;
+    float ki;
+    float kd;
+    int minOutput;
+    int maxOutput;
+};
 
-#define POSITION_MIN 0
-#define POSITION_MAX 100
+struct SystemState {
+    int speed;
+    int setpoint;
+    int output;
+    int lastError;
+    long integralError;
+};
 
-#define ADC_MIN 0
-#define ADC_MAX 1023
-
-typedef enum {
-    MOTOR_UPDATE_POSITION,
-    MOTOR_SET_SETPOINT
-} MotorCommandType;
-
-typedef struct {
-    MotorCommandType type;
-    int value;
-} MotorCommand;
-
-extern QueueHandle_t motorCommandQueue;
-
-typedef struct {
-    int currentPosition;
-    int targetPosition;
-    double pidOutput;
-} SystemStatus;
-
-extern SystemStatus g_systemStatus;
-
-extern SemaphoreHandle_t g_statusMutex;
-
-void initGlobals(void);
+extern PIDConfig pidConfig;
+extern SystemState state;
 
 #endif
