@@ -4,7 +4,7 @@
 #include "../config.h"
 #include <Arduino.h>
 
-void initButton();
+void initButtons();
 bool isButtonPressed();
 bool isNightModeButtonPressed();
 

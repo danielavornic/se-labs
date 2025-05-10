@@ -1,20 +1,20 @@
 #include "button/button.h"
-#include "config.h"
-#include "fsm/fsm.h"
+#include "globals/globals.h"
 #include "led/led.h"
 #include "serial_comm/serial_comm.h"
+#include "tasks/tasks.h"
 #include <Arduino.h>
+#include <Arduino_FreeRTOS.h>
 
 void setup()
 {
     initSerial();
-    initButton();
     initLeds();
-    initFSM();
+    initButtons();
+    initGlobals();
+
+    createTasks();
+    vTaskStartScheduler();
 }
 
-void loop()
-{
-    updateFSM();
-    delay(10);
-}
+void loop() { }

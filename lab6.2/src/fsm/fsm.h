@@ -30,9 +30,9 @@ typedef struct {
     unsigned long duration;
 } StateConfig;
 
-void initFSM();
-void updateFSM();
-FSMState getCurrentState();
+extern const StateConfig stateConfig[STATE_COUNT];
+extern const char* const stateNames[STATE_COUNT];
+
 const char* getStateName(FSMState state);
 
 #endif

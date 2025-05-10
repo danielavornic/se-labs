@@ -12,7 +12,7 @@ static struct {
 
 static const unsigned long debounceDelay = 50;
 
-void initButton()
+void initButtons()
 {
     pinMode(buttons[0].pin, INPUT_PULLUP);
     pinMode(buttons[1].pin, INPUT_PULLUP);
