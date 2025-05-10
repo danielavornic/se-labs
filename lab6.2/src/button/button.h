@@ -6,5 +6,6 @@
 
 void initButton();
 bool isButtonPressed();
+bool isNightModeButtonPressed();
 
 #endif

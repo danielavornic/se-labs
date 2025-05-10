@@ -114,6 +114,14 @@
       "left": 133.55,
       "rotate": 270,
       "attrs": { "value": "220" }
+    },
+    {
+      "type": "wokwi-pushbutton-6mm",
+      "id": "btn2",
+      "top": -75.8,
+      "left": 52,
+      "rotate": 90,
+      "attrs": { "color": "yellow", "xray": "1" }
     }
   ],
   "connections": [
@@ -133,10 +141,6 @@
     ["r2:2", "bb1:36t.e", "", ["$bb"]],
     ["r3:1", "bb1:34b.i", "", ["$bb"]],
     ["r3:2", "bb1:34t.e", "", ["$bb"]],
-    ["btn1:1.l", "bb1:42t.e", "", ["$bb"]],
-    ["btn1:2.l", "bb1:40t.e", "", ["$bb"]],
-    ["btn1:1.r", "bb1:42b.f", "", ["$bb"]],
-    ["btn1:2.r", "bb1:40b.f", "", ["$bb"]],
     ["led4:A", "bb1:26t.c", "", ["$bb"]],
     ["led4:C", "bb1:25t.c", "", ["$bb"]],
     ["r4:1", "bb1:26b.i", "", ["$bb"]],
@@ -159,7 +163,17 @@
     ["bb1:34b.j", "mega:5", "violet", ["v57.6", "h-38.4"]],
     ["bb1:26b.j", "mega:6", "blue", ["v57.6", "h28.8"]],
     ["bb1:24b.j", "mega:7", "blue", ["v67.2", "h38.4"]],
-    ["bb1:22b.j", "mega:8", "blue", ["v76.8", "h48"]]
+    ["bb1:22b.j", "mega:8", "blue", ["v76.8", "h48"]],
+    ["btn1:1.l", "bb1:42t.e", "", ["$bb"]],
+    ["btn1:2.l", "bb1:40t.e", "", ["$bb"]],
+    ["btn1:1.r", "bb1:42b.f", "", ["$bb"]],
+    ["btn1:2.r", "bb1:40b.f", "", ["$bb"]],
+    ["btn2:1.l", "bb1:13t.e", "", ["$bb"]],
+    ["btn2:2.l", "bb1:11t.e", "", ["$bb"]],
+    ["btn2:1.r", "bb1:13b.f", "", ["$bb"]],
+    ["btn2:2.r", "bb1:11b.f", "", ["$bb"]],
+    ["bb1:11b.j", "bb1:bn.8", "black", ["v0"]],
+    ["bb1:13b.j", "mega:12", "gold", ["v86.4", "h96"]]
   ],
   "dependencies": {}
 }

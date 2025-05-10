@@ -13,13 +13,20 @@ typedef enum {
     STATE_NORTH_GREEN,
     STATE_NORTH_YELLOW,
     STATE_ALL_RED_NORTH_TO_EAST,
+    STATE_FLASHING_YELLOW,
     STATE_COUNT,
 } FSMState;
 
+typedef enum {
+    BUTTON_NONE,
+    BUTTON_NORTH,
+    BUTTON_NIGHT_MODE
+} ButtonPress;
+
 typedef struct {
-    // 0 - button not pressed, 1 - button pressed
-    FSMState next[2];
+    FSMState next[3]; // [0]: timeout/no button, [1]: north button, [2]: night mode button
     StateAction enter;
+    StateAction update;
     unsigned long duration;
 } StateConfig;
 
