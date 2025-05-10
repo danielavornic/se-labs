@@ -1,0 +1,18 @@
+#ifndef CONFIG_H
+#define CONFIG_H
+
+#define EAST_RED_PIN 8
+#define EAST_YELLOW_PIN 7
+#define EAST_GREEN_PIN 6
+
+#define NORTH_RED_PIN 5
+#define NORTH_YELLOW_PIN 4
+#define NORTH_GREEN_PIN 3
+
+#define BUTTON_PIN 2
+
+#define GREEN_DURATION 5000
+#define YELLOW_DURATION 2000
+#define ALL_RED_DURATION 1000
+
+#endif
